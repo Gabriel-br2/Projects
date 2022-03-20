@@ -2,6 +2,7 @@
 #                                          Cesar Cifer em Python                                                  #
 #    no arquivo in, que devem estar no mesmo repositório, deve ser colocado os texto ou palavras a serem usadas.  # 
 #             Em seguida no terminal deve se colocar a função (encript ou decript) e a chave                      #
+#                        Para o exemplo no gitHub -> chave: 12345
 ####################################################################################################################
 
 AL = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']

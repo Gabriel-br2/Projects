@@ -1,9 +1,8 @@
-#######################################################################################################
-#                                   Cesar Cifer em Python                                             #
-#                  nos arquivos in e out, que devem estar no mesmo repositório,                       #
-#                devem ser colocados as seguintes infos nessa ordem em cada linha:                    #
-#  Função (encript ou decript), chave, e nas demais linhas a frase, texto ou palavras a serem usadas  #
-#######################################################################################################
+###################################################################################################################
+#                                          Cesar Cifer em Python                                                  #
+#    no arquivo in, que devem estar no mesmo repositório, deve ser colocado os texto ou palavras a serem usadas.  # 
+#             Em seguida no terminal deve se colocar a função (encript ou decript) e a chave                      #
+####################################################################################################################
 
 AL = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 al = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']

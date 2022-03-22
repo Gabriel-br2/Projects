@@ -1,4 +1,7 @@
-Gabriel Rocha de Souza - PROJETO I
+
+# Gabriel Rocha de Souza - PROJETO I
+
+Esse foi meu primeiro projeto, desenvolvido totalente em python e utilisando a biblioteca graphics.py. Este foi um trabalho para a aula de Algoritimos para Automação I do curso de Engenharia da Automação da FURG (Universidade Federal do Rio Grande).  
 
 Obs: Todos os arquivos e pastas devem estar no mesmo repositório
 -------------------------------------------------------------------------

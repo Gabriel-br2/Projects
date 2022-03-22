@@ -9,7 +9,8 @@ Obs: Todos os arquivos e pastas devem estar no mesmo repositório
 Star Wars - O Despertar da Força, 2015. Filme. Dirigido por J.J.Abrams. 
 EUA: Lucasfilm Ltd. Distribuição: Walt Disney Studios Motion Pictures
 
----------------------- IMAGENS USADAS e referências ---------------------
+IMAGENS USADAS e referências
+--------------------------------------------------------------------------
 
 - exit(0).png, exit(1).png, start(0).png, start(1).png, fundo.png, life_bar.png
 Todos os arquivos acima são de minha autoria - Gabriel Rocha de Souza 

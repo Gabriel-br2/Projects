@@ -1,6 +1,11 @@
+## Gabriel Rocha de Souza - PROJETO I
 
-# Gabriel Rocha de Souza - PROJETO I
-
+<div align="center">
+<img alt="grs-long" height="1000" width="1000" src="" target="_blank"> <img alt="grs-star" height="1000" width="1000" src="" target="_blank">
+  
+<img alt="grs-menu" height="1000" width="1000" src="" target="_blank"> <img alt="grs-game" height="1000" width="1000" src="" target="_blank">
+</div>
+  
 Esse foi meu primeiro projeto, desenvolvido totalente em python e utilisando a biblioteca graphics.py. Este foi um trabalho para a aula de Algoritimos para Automação I do curso de Engenharia da Automação da FURG (Universidade Federal do Rio Grande).  
 
 Obs: Todos os arquivos e pastas devem estar no mesmo repositório

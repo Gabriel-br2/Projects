@@ -1,9 +1,7 @@
 ## Gabriel Rocha de Souza - PROJETO I
 
 <div align="center">
-<img alt="grs-long" height="1000" width="1000" src="" target="_blank"> <img alt="grs-star" height="1000" width="1000" src="" target="_blank">
-  
-<img alt="grs-menu" height="1000" width="1000" src="" target="_blank"> <img alt="grs-game" height="1000" width="1000" src="" target="_blank">
+<img alt="grs-long" height="250" width="250" src="https://user-images.githubusercontent.com/76768640/159594641-57b22b65-ac83-4335-9adf-60d9e806dbdc.png" target="_blank"> <img alt="grs-star" height="250" width="250" src="https://user-images.githubusercontent.com/76768640/159594639-a50a5282-138c-47f6-b9df-80319630a539.png" target="_blank"> <img alt="grs-game" height="250" width="250" src="https://user-images.githubusercontent.com/76768640/159594642-0390d5fe-2474-4c04-a59e-99a62d556de1.png" target="_blank">
 </div>
   
 Esse foi meu primeiro projeto, desenvolvido totalente em python e utilisando a biblioteca graphics.py. Este foi um trabalho para a aula de Algoritimos para Automação I do curso de Engenharia da Automação da FURG (Universidade Federal do Rio Grande).  
@@ -18,7 +16,7 @@ IMAGENS USADAS e referências
 --------------------------------------------------------------------------
 
 - exit(0).png, exit(1).png, start(0).png, start(1).png, fundo.png, life_bar.png
-Todos os arquivos acima são de minha autoria - Gabriel Rocha de Souza 
+Todos estes arquivos foram de minha autoria - Gabriel Rocha de Souza 
 
 - explo1.png, explo2.png, explo3.png, explo4.png
 Disponivel em: https://gifer.com/pt/XCVT

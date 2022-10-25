@@ -4,7 +4,7 @@
 <img alt="grs-long" height="250" width="250" src="https://user-images.githubusercontent.com/76768640/159594641-57b22b65-ac83-4335-9adf-60d9e806dbdc.png" target="_blank"> <img alt="grs-star" height="250" width="250" src="https://user-images.githubusercontent.com/76768640/159594639-a50a5282-138c-47f6-b9df-80319630a539.png" target="_blank"> <img alt="grs-game" height="250" width="250" src="https://user-images.githubusercontent.com/76768640/159594642-0390d5fe-2474-4c04-a59e-99a62d556de1.png" target="_blank">
 </div>
   
-Esse foi meu primeiro projeto, desenvolvido totalente em python e utilisando a biblioteca graphics.py. Este foi um trabalho para a aula de Algoritimos para Automação I do curso de Engenharia da Automação da FURG (Universidade Federal do Rio Grande).  
+Esse foi meu primeiro projeto, desenvolvido totalente em python e utilizando a biblioteca graphics.py. Este foi um trabalho para a aula de Algoritimos para Automação I do curso de Engenharia da Automação da FURG (Universidade Federal do Rio Grande).  
 
 Obs: Todos os arquivos e pastas devem estar no mesmo repositório
 -------------------------------------------------------------------------

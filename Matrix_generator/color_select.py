@@ -17,7 +17,7 @@ def test_all_buttons(l, m):
 
 def save(r, g, b, font, tx, ty, screen):
     tx, ty = tx + 100, ty + 33
-    file = open("color_saved.txt", 'r + ')    
+    file = open("color_saved.txt", 'r+')    
     f = str((r, g, b)) + '\n'
     Lines = file.readlines()
     if f in Lines: txt_saveok = 'Color Already Saved.'   
@@ -89,10 +89,8 @@ def color_test(s):
     for a in range(len(s) - 2):
         if s[a]: color.append(((255, 255, 255), (100, 100, 100)))
         else: color.append(((30, 30, 30), (50, 50, 50)))
-
     if s[16]: color.append(((255, 255, 255), (255, 0, 0)))
     else: color.append(((180, 180, 180), (50, 50, 50)))
-
     return color
 
 def convert_2RGB(hexa):
@@ -102,19 +100,14 @@ def convert_2RGB(hexa):
     if hexa[0] == '#':
         try: R, G, B = int(hexa[1:3], base=16), int(hexa[3:5], base=16), int(hexa[5:7], base=16) 
         except ValueError: R, G, B = 0, 0, 0
-        
         return str(R), str(G), str(B)
-
-    else: 
-        return '0', '0', '0'
+    else: return '0', '0', '0'
 
 def convert_2hex(r, g, b):
     r, g, b = hex(r)[2:4], hex(g)[2:4], hex(b)[2:4]
-
     if len(r) == 1: r = '0' + r
     if len(g) == 1: g = '0' + g
     if len(b) == 1: b = '0' + b
-
     return "#" + r + g + b
 
 def create_rect(tx, ty, L):

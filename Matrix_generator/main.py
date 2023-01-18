@@ -46,6 +46,30 @@ def doubleFrame(main_mat):
         Ret.append(ret_l)
     return Ret
 
+def readDataSaved(tamX, tamY):
+    matriz = [] 
+    co = 0
+    arqName = "color_saved.txt"
+    file = open(arqName,'r')
+    lines = file.readlines()
+    for a in range(tamY):
+        c = []
+        for b in range(tamX):
+            try:
+                a = lines[co]
+            except:
+                a = '(0,0,0)\n'
+            a = a.split(',')
+            a = a[0].split('(') + a[1:]
+            a = a[1:len(a)-1] + a[len(a)-1].split(')')
+            a = list(map(int,a[0:len(a)-1]))
+            c.append((a[0],a[1],a[2]))
+            co += 1
+        matriz.append(c)
+    return matriz
+
+
+
 
 
 
@@ -83,7 +107,9 @@ def main():
 
     rects_m = genRectMatriz(30,30,tamX,tamY,20,3)
     rects_sc = genRectMatriz(728,178,3,6,17,4.5) 
-    save_mat = genDataMatriz(3,6)
+    
+    #save_mat = genDataMatriz(3,6)
+    
 
     font = [25, 20, 15]
     font = font_vector(font)
@@ -93,6 +119,8 @@ def main():
     c = False
 
     while running:
+        save_mat = readDataSaved(3,6)
+        print(save_mat)
         m = pygame.mouse.get_pos()
 
         for event in pygame.event.get():

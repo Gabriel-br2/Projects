@@ -3,16 +3,16 @@ from color_select import *
 
 pygame.init()
 
-def generate_data_color_matrix_new(tamX,tamY):
-    Matrix = []
+def genDataMatriz(tamX,tamY):
+    Matriz = []
     for colun in range(tamY):
         Line = []
         for line in range(tamX):
             Line.append((0,0,0))
-        Matrix.append(Line)
-    return Matrix
+        Matriz.append(Line)
+    return Matriz
 
-def generate_matrix_color(dx,dy,tamX,tamY,t,e):
+def genRectMatriz(dx,dy,tamX,tamY,t,e):
     rects_m = []
     x,y = dx,dy
     for colun in range(tamY):
@@ -25,19 +25,19 @@ def generate_matrix_color(dx,dy,tamX,tamY,t,e):
         x = dx
     return rects_m
 
-def draw_matrix_color(cm,screen,Mat):
+def drawMatrizColor(cm,screen,Mat):
     for colun in range(len(cm)):
         for line in range(len(cm[colun])):
             pygame.draw.rect(screen, cm[colun][line], Mat[colun][line])
             
-def test_matrix_button(mat,tamX,tamY,m,et_mouse):
+def testMatrizClick(mat,tamX,tamY,m,et_mouse):
     for a in range(tamY):
         for b in range(tamX):
             if test_button(mat[a][b],m) and et_mouse:
                 return True,a,b
     return False,0,0 
     
-def duplicate_frame_one_to_one(main_mat):
+def doubleFrame(main_mat):
     Ret = []
     for a in range(len(main_mat)):
         ret_l = []
@@ -63,7 +63,7 @@ def duplicate_frame_one_to_one(main_mat):
 
 
 def main():
-    main_matrix = []
+    main_matriz = []
     current_frame = -1
     tam = -1
 
@@ -75,14 +75,15 @@ def main():
 
     main_color = pygame.Rect(728, 31, 58, 58)
     main_colorborder = pygame.Rect(727, 30, 60, 60)
-    button_colorselect = pygame.Rect(727, 100, 60, 60)
+    button_colorselect = pygame.Rect(727, 105, 60, 60)
     button_new_frame = pygame.Rect(30, 313, 100, 30)
     but_duplicateframe = pygame.Rect(135,313,100,30)
     but_front = pygame.Rect(275,313,30,30)
     but_back = pygame.Rect(240,313,30,30)
 
-    rects_m = generate_matrix_color(30,30,tamX,tamY,20,3)
-    rects_sc = generate_matrix_color(728,171,3,5,15,5) 
+    rects_m = genRectMatriz(30,30,tamX,tamY,20,3)
+    rects_sc = genRectMatriz(728,178,3,6,17,4.5) 
+    save_mat = genDataMatriz(3,6)
 
     font = [25, 20, 15]
     font = font_vector(font)
@@ -90,8 +91,6 @@ def main():
     r,g,b = 0,0,0
 
     c = False
-
-    save_mat = generate_data_color_matrix_new(2,5)
 
     while running:
         m = pygame.mouse.get_pos()
@@ -107,13 +106,13 @@ def main():
                 if s: r,g,b = r1,g1,b1
                 
             if (test_button(button_new_frame,m) and et_mouse) or tam == -1:
-                main_matrix.insert(current_frame+1,generate_data_color_matrix_new(tamX,tamY))
+                main_matriz.insert(current_frame+1,genDataMatriz(tamX,tamY))
                 current_frame += 1
                 tam+=1
 
 
             if test_button(but_duplicateframe,m) and et_mouse:
-                main_matrix.insert(current_frame+1,duplicate_frame_one_to_one(main_matrix[current_frame]))
+                main_matriz.insert(current_frame+1,doubleFrame(main_matriz[current_frame]))
                 current_frame += 1
                 tam+=1
 
@@ -125,8 +124,8 @@ def main():
                 if current_frame == tam: current_frame = 0
                 else: current_frame += 1
 
-            test,changed_X,changed_Y = test_matrix_button(rects_m,tamX,tamY,m,et_mouse)
-            if test: main_matrix[current_frame][changed_X][changed_Y] = (r, g, b) 
+            test,changed_X,changed_Y = testMatrizClick(rects_m,tamX,tamY,m,et_mouse)
+            if test: main_matriz[current_frame][changed_X][changed_Y] = (r, g, b) 
 
         if c: break
 
@@ -135,9 +134,9 @@ def main():
         str_to_txt = str(current_frame+1) + ' of ' + str(tam+1) 
         txt = font[1].render(str_to_txt,True,(255,255,255))
         screen.blit(txt, (30,7))
-
-        draw_matrix_color(main_matrix[current_frame],screen,rects_m)
-        draw_matrix_color(save_mat,screen,rects_sc)
+        
+        drawMatrizColor(main_matriz[current_frame],screen,rects_m)
+        drawMatrizColor(save_mat,screen,rects_sc)
 
         pygame.draw.rect(screen, (0 , 0, 0), main_colorborder)
         pygame.draw.rect(screen, (r, g, b), main_color)

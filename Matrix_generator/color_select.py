@@ -128,7 +128,6 @@ def select_color(red,green,blue,screen, font, tx, ty):
     rects = [(0, 0, 400, 25), (350, 0, 50, 25), (0, 25, 400, 165), (170, 40, 20, 20), (355, 40, 20, 20), (195, 40, 155, 20), (125, 40, 40, 20), (170, 75, 20, 20), (355, 75, 20, 20), (195, 75, 155, 20), (125, 75, 40, 20), (170, 110, 20, 20), (355, 110, 20, 20), (195, 110, 155, 20), (125, 110, 40, 20), (15, 40, 94, 91), (255, 145, 120, 30), (175, 145, 75, 30), (95, 145, 75, 30), (15, 145, 75, 30)]
     rects = create_rect(tx, ty, rects)
 
-#    red, green, blue = 0, 0, 0
     red_tBOX, green_tBOX, blue_tBOX, hex_tBOX = str(red), str(green), str(blue), '' 
     mod_red_b, mod_green_b, mod_blue_b, mod_hexa, close = False, False, False, False, False
 

@@ -12,22 +12,22 @@ def generate_data_color_matrix_new(tamX,tamY):
         Matrix.append(Line)
     return Matrix
 
-def generate_matrix_color(dx,dy,tamX,tamY):
+def generate_matrix_color(dx,dy,tamX,tamY,t,e):
     rects_m = []
     x,y = dx,dy
     for colun in range(tamY):
         Line = []
         for line in range(tamX):
-            Line.append(pygame.Rect(x,y,20,20))
-            x += 23
+            Line.append(pygame.Rect(x,y,t,t))
+            x += t+e
         rects_m.append(Line)
-        y +=23
+        y +=t+e
         x = dx
     return rects_m
 
-def draw_matrix_color(tamX,tamY,cm,screen,Mat):
-    for colun in range(tamY):
-        for line in range(tamX):
+def draw_matrix_color(cm,screen,Mat):
+    for colun in range(len(cm)):
+        for line in range(len(cm[colun])):
             pygame.draw.rect(screen, cm[colun][line], Mat[colun][line])
             
 def test_matrix_button(mat,tamX,tamY,m,et_mouse):
@@ -81,8 +81,8 @@ def main():
     but_front = pygame.Rect(275,313,30,30)
     but_back = pygame.Rect(240,313,30,30)
 
-    rects_m = generate_matrix_color(30,30,tamX,tamY)
-    rects_sc = generate_matrix_color(900,400,2,5) 
+    rects_m = generate_matrix_color(30,30,tamX,tamY,20,3)
+    rects_sc = generate_matrix_color(728,171,3,5,15,5) 
 
     font = [25, 20, 15]
     font = font_vector(font)
@@ -136,8 +136,8 @@ def main():
         txt = font[1].render(str_to_txt,True,(255,255,255))
         screen.blit(txt, (30,7))
 
-        draw_matrix_color(tamX,tamY,main_matrix[current_frame],screen,rects_m)
-        draw_matrix_color(2,5,save_mat,screen,rects_sc)
+        draw_matrix_color(main_matrix[current_frame],screen,rects_m)
+        draw_matrix_color(save_mat,screen,rects_sc)
 
         pygame.draw.rect(screen, (0 , 0, 0), main_colorborder)
         pygame.draw.rect(screen, (r, g, b), main_color)

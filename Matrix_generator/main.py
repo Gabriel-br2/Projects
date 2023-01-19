@@ -1,3 +1,5 @@
+# Eu adoro fazer programa
+
 import pygame
 from color_select import *
 
@@ -55,10 +57,8 @@ def readDataSaved(tamX, tamY):
     for a in range(tamY):
         c = []
         for b in range(tamX):
-            try:
-                a = lines[co]
-            except:
-                a = '(0,0,0)\n'
+            try: a = lines[co]
+            except: a = '(0,0,0)\n'
             a = a.split(',')
             a = a[0].split('(') + a[1:]
             a = a[1:len(a)-1] + a[len(a)-1].split(')')
@@ -67,24 +67,6 @@ def readDataSaved(tamX, tamY):
             co += 1
         matriz.append(c)
     return matriz
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 def main():
     main_matriz = []

@@ -1,5 +1,3 @@
-# Eu adoro fazer programa
-
 import pygame
 from color_select import *
 

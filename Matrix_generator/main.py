@@ -3,32 +3,26 @@ from color_select import *
 
 pygame.init()
 
-def genDataMatriz(tamX,tamY):
-    Matriz = []
-    for colun in range(tamY):
-        Line = []
-        for line in range(tamX):
-            Line.append((0,0,0))
-        Matriz.append(Line)
-    return Matriz
-
-def genRectMatriz(dx,dy,tamX,tamY,t,e):
+def genRectMatriz(dx,dy,tamX,tamY,t,e,data):
     rects_m = []
     x,y = dx,dy
     for colun in range(tamY):
         Line = []
         for line in range(tamX):
-            Line.append(pygame.Rect(x,y,t,t))
+            if data:
+                Line.append((0,0,0))
+            else:
+                Line.append(pygame.Rect(x,y,t,t))
             x += t+e
         rects_m.append(Line)
         y +=t+e
         x = dx
     return rects_m
 
-def drawMatrizColor(cm,screen,Mat):
-    for colun in range(len(cm)):
-        for line in range(len(cm[colun])):
-            pygame.draw.rect(screen, cm[colun][line], Mat[colun][line])
+def drawMatrizColor(color_mat,screen,Mat):
+    for colun in range(len(color_mat)):
+        for line in range(len(color_mat[colun])):
+            pygame.draw.rect(screen, color_mat[colun][line], Mat[colun][line])
             
 def testMatrizClick(mat,tamX,tamY,m,et_mouse):
     for a in range(tamY):
@@ -48,21 +42,21 @@ def doubleFrame(main_mat):
 
 def readDataSaved(tamX, tamY):
     matriz = [] 
-    co = 0
+    cont = 0
     arqName = "color_saved.txt"
     file = open(arqName,'r')
     lines = file.readlines()
     for a in range(tamY):
         c = []
         for b in range(tamX):
-            try: a = lines[co]
+            try: a = lines[cont]
             except: a = '(0,0,0)\n'
             a = a.split(',')
             a = a[0].split('(') + a[1:]
             a = a[1:len(a)-1] + a[len(a)-1].split(')')
             a = list(map(int,a[0:len(a)-1]))
             c.append((a[0],a[1],a[2]))
-            co += 1
+            cont += 1
         matriz.append(c)
     return matriz
 
@@ -85,12 +79,9 @@ def main():
     but_front = pygame.Rect(275,313,30,30)
     but_back = pygame.Rect(240,313,30,30)
 
-    rects_m = genRectMatriz(30,30,tamX,tamY,20,3)
-    rects_sc = genRectMatriz(728,178,3,6,17,4.5) 
-    
-    #save_mat = genDataMatriz(3,6)
-    
-
+    rects_m = genRectMatriz(30,30,tamX,tamY,20,3,False)
+    rects_sc = genRectMatriz(728,178,3,6,17,4.5,False) 
+        
     font = [25, 20, 15]
     font = font_vector(font)
 
@@ -100,7 +91,6 @@ def main():
 
     while running:
         save_mat = readDataSaved(3,6)
-        print(save_mat)
         m = pygame.mouse.get_pos()
 
         for event in pygame.event.get():
@@ -114,7 +104,7 @@ def main():
                 if s: r,g,b = r1,g1,b1
                 
             if (test_button(button_new_frame,m) and et_mouse) or tam == -1:
-                main_matriz.insert(current_frame+1,genDataMatriz(tamX,tamY))
+                main_matriz.insert(current_frame+1,genRectMatriz(0,0,tamX,tamY,0,0,True))
                 current_frame += 1
                 tam+=1
 

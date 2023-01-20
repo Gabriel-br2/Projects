@@ -2,8 +2,8 @@
 #include <string.h>
 #include <time.h> 
 
-long int tabela_td[100];
-long int tabela_bu[100];
+long long int tabela_td[100];
+long long int tabela_bu[100];
 int tam = 2;
 
 int fib(int n){
@@ -12,7 +12,7 @@ int fib(int n){
   return fib(n-1) + fib(n-2);
 }
 
-long int fibBottomUp(long int n){
+long long int fibBottomUp(long long int n){
   tabela_bu[0] = 0;
   tabela_bu[1] = 1;
   for(int count = 2;count < n+1;count++){
@@ -21,7 +21,7 @@ long int fibBottomUp(long int n){
   return tabela_bu[n];
 }
 
-long int fibTopDown(long int n){
+long long int fibTopDown(long long int n){
   if ((n == 1) || (n == 0))
     return n;
   if (n < tam)
@@ -34,7 +34,7 @@ long int fibTopDown(long int n){
 void test_tempo_func(int op, int n){
     char op_t[50];
     double resultado_tempo = 0.0;
-    long int result;
+    long long int result;
     
     clock_t temp_start = clock();
     if (op == 0){
@@ -52,7 +52,8 @@ void test_tempo_func(int op, int n){
     clock_t temp_finish = clock();
     
     resultado_tempo = (double)(temp_finish - temp_start) / CLOCKS_PER_SEC;
-    printf("Resultado - Fibonacci (%s): %ld\n",op_t,result);
+    printf("Fibonacci de %d:\n",n);
+    printf("Resultado - Fibonacci (%s): %lld\n",op_t,result);
     printf("Tempo de Execução - Fibonacci (%s): %.7f\n",op_t,resultado_tempo);
     printf("===================================================\n");  
 }

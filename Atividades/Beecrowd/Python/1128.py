@@ -1,5 +1,11 @@
 # Work in progress
 
+def Juntar(L1,L2):
+    for a in range(len(L2)):
+        if L2[a] not in L1:
+            L1.append(L2[a])
+    return L1
+
 while True:
     Graf_inter = {}
     Graf_nodo = []
@@ -16,4 +22,14 @@ while True:
                 Graf_nodo.append(W)
                 Graf_inter[W] = [V]
             else: Graf_inter[W].append(V)
-    print(Graf_inter) 
+
+    usados,index = [],0
+    ref = Juntar([],Graf_inter[1])
+    while True:
+        try:
+            if ref[index] in usados: break
+        except: break
+        usados.append(ref[index])
+        ref = Juntar(ref,Graf_inter[ref[index]])
+        index += 1
+    print(1 if len(ref) == Inter else 0)

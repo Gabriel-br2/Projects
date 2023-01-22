@@ -9,10 +9,8 @@ def genRectMatriz(dx,dy,tamX,tamY,t,e,data):
     for colun in range(tamY):
         Line = []
         for line in range(tamX):
-            if data:
-                Line.append((0,0,0))
-            else:
-                Line.append(pygame.Rect(x,y,t,t))
+            if data: Line.append((0,0,0))
+            else: Line.append(pygame.Rect(x,y,t,t))
             x += t+e
         rects_m.append(Line)
         y +=t+e
@@ -27,7 +25,7 @@ def drawMatrizColor(color_mat,screen,Mat):
 def testMatrizClick(mat,tamX,tamY,m,et_mouse):
     for a in range(tamY):
         for b in range(tamX):
-            if test_button(mat[a][b],m) and et_mouse:
+            if testButton(mat[a][b],m) and et_mouse: 
                 return True,a,b
     return False,0,0 
     
@@ -46,18 +44,18 @@ def readDataSaved(tamX, tamY):
     arqName = "color_saved.txt"
     file = open(arqName,'r')
     lines = file.readlines()
-    for a in range(tamY):
-        c = []
-        for b in range(tamX):
-            try: a = lines[cont]
-            except: a = '(0,0,0)\n'
-            a = a.split(',')
-            a = a[0].split('(') + a[1:]
-            a = a[1:len(a)-1] + a[len(a)-1].split(')')
-            a = list(map(int,a[0:len(a)-1]))
-            c.append((a[0],a[1],a[2]))
+    for Y in range(tamY):
+        colun = []
+        for X in range(tamX):
+            try: data_count = lines[cont]
+            except: data_count = '(0,0,0)\n'
+            data_count = data_count.split(',')
+            data_count = data_count[0].split('(') + data_count[1:]
+            data_count = data_count[1:len(data_count)-1] + data_count[len(data_count)-1].split(')')
+            data_count = list(map(int,data_count[0:len(data_count)-1]))
+            colun.append((data_count[0],data_count[1],data_count[2]))
             cont += 1
-        matriz.append(c)
+        matriz.append(colun)
     return matriz
 
 def main():
@@ -83,7 +81,7 @@ def main():
     rects_sc = genRectMatriz(728,178,3,6,17,4.5,False) 
         
     font = [25, 20, 15]
-    font = font_vector(font)
+    font = fontVector(font)
 
     r,g,b = 0,0,0
 
@@ -99,26 +97,26 @@ def main():
 
             et_mouse = (event.type == pygame.MOUSEBUTTONDOWN)
 
-            if test_button(button_colorselect,m) and et_mouse:
-                r1,g1,b1,s,c = select_color(r,g,b,screen,font,300,130)
+            if testButton(button_colorselect,m) and et_mouse:
+                r1,g1,b1,s,c = selectColor(r,g,b,screen,font,300,130)
                 if s: r,g,b = r1,g1,b1
                 
-            if (test_button(button_new_frame,m) and et_mouse) or tam == -1:
+            if (testButton(button_new_frame,m) and et_mouse) or tam == -1:
                 main_matriz.insert(current_frame+1,genRectMatriz(0,0,tamX,tamY,0,0,True))
                 current_frame += 1
                 tam+=1
 
 
-            if test_button(but_duplicateframe,m) and et_mouse:
+            if testButton(but_duplicateframe,m) and et_mouse:
                 main_matriz.insert(current_frame+1,doubleFrame(main_matriz[current_frame]))
                 current_frame += 1
                 tam+=1
 
-            if test_button(but_back,m) and et_mouse:
+            if testButton(but_back,m) and et_mouse:
                 if current_frame == 0: current_frame = tam
                 else: current_frame -= 1
 
-            if test_button(but_front,m) and et_mouse:
+            if testButton(but_front,m) and et_mouse:
                 if current_frame == tam: current_frame = 0
                 else: current_frame += 1
 

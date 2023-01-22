@@ -1,19 +1,20 @@
 import pygame
 
-def test_button(r, m):
-    if (r.topleft[0] <= m[0] <= r.topright[0]) and (r.topleft[1] <= m[1] <= r.bottomright[1]): return True
+def testButton(rect, mouse):
+    if (rect.topleft[0] <= mouse[0] <= rect.topright[0]) and (rect.topleft[1] <= mouse[1] <= rect.bottomright[1]): return True
     else: return False
 
-def font_vector(vector_size):
+def fontVector(vector_size):
     vector_font = [] 
     for a in vector_size:
         vector_font.append(pygame.font.Font('freesansbold.ttf', a))
     return vector_font
 
-def test_all_buttons(l, m):
-    r = []
-    for c in range(len(l)): r.append(test_button(l[c], m))
-    return r
+def test_all_buttons(listB, mouse):
+    rects = []
+    for count in range(len(listB)): 
+        rects.append(testButton(listB[count], mouse))
+    return rects
 
 def save(r, g, b, font, tx, ty, screen):
     tx, ty = tx + 100, ty + 33
@@ -46,10 +47,10 @@ def save(r, g, b, font, tx, ty, screen):
             if event.type == pygame.QUIT: 
                return True
 
-            if test_button(window_saveExit, m): exit_save = True
+            if testButton(window_saveExit, m): exit_save = True
             else: exit_save = False
 
-            if (exit_save and et_mouse) or (not(test_button(window_saveborder, m)) and et_mouse):
+            if (exit_save and et_mouse) or (not(testButton(window_saveborder, m)) and et_mouse):
                 running_wsave = False
 
         if exit_save: colorsave_exit = (255, 0, 0)
@@ -75,7 +76,7 @@ def save(r, g, b, font, tx, ty, screen):
         pygame.display.update()
     return False
 
-def link_BOX(rgb, rgb_box):
+def linkBOX(rgb, rgb_box):
     try: rgb = int(rgb_box)
     except ValueError: 
         if rgb_box == '': rgb = 0
@@ -84,16 +85,7 @@ def link_BOX(rgb, rgb_box):
     if rgb > 255: rgb_box, rgb = "255", 255
     return rgb, rgb_box
 
-def color_test(s):
-    color = []
-    for a in range(len(s) - 2):
-        if s[a]: color.append(((255, 255, 255), (100, 100, 100)))
-        else: color.append(((30, 30, 30), (50, 50, 50)))
-    if s[16]: color.append(((255, 255, 255), (255, 0, 0)))
-    else: color.append(((180, 180, 180), (50, 50, 50)))
-    return color
-
-def convert_2RGB(hexa):
+def convert2RGB(hexa):
     if len(hexa) < 7:
         for a in range(7 - len(hexa)):
             hexa += '0'
@@ -103,23 +95,23 @@ def convert_2RGB(hexa):
         return str(R), str(G), str(B)
     else: return '0', '0', '0'
 
-def convert_2hex(r, g, b):
+def convert2hex(r, g, b):
     r, g, b = hex(r)[2:4], hex(g)[2:4], hex(b)[2:4]
     if len(r) == 1: r = '0' + r
     if len(g) == 1: g = '0' + g
     if len(b) == 1: b = '0' + b
     return "#" + r + g + b
 
-def create_rect(tx, ty, L):
+def createRect(tx, ty, L):
     R = []
     for r in L: R.append(pygame.Rect(tx + r[0], ty + r[1], r[2], r[3]))
     return R
 
-def select_color(red,green,blue,screen, font, tx, ty):
+def selectColor(red,green,blue,screen, font, tx, ty):
     running_color_select = True
 
     rects = [(0, 0, 400, 25), (350, 0, 50, 25), (0, 25, 400, 165), (170, 40, 20, 20), (355, 40, 20, 20), (195, 40, 155, 20), (125, 40, 40, 20), (170, 75, 20, 20), (355, 75, 20, 20), (195, 75, 155, 20), (125, 75, 40, 20), (170, 110, 20, 20), (355, 110, 20, 20), (195, 110, 155, 20), (125, 110, 40, 20), (15, 40, 94, 91), (255, 145, 120, 30), (175, 145, 75, 30), (95, 145, 75, 30), (15, 145, 75, 30)]
-    rects = create_rect(tx, ty, rects)
+    rects = createRect(tx, ty, rects)
 
     red_tBOX, green_tBOX, blue_tBOX, hex_tBOX = str(red), str(green), str(blue), '' 
     mod_red_b, mod_green_b, mod_blue_b, mod_hexa, close = False, False, False, False, False
@@ -198,16 +190,21 @@ def select_color(red,green,blue,screen, font, tx, ty):
             if mod_blue_b: blue_tBOX = str(((m[0] - (tx + 170) - 25)*255)//155)
 
 
-        red, red_tBOX = link_BOX(red, red_tBOX)
-        green, green_tBOX = link_BOX(green, green_tBOX)
-        blue, blue_tBOX = link_BOX(blue, blue_tBOX)
+        red, red_tBOX = linkBOX(red, red_tBOX)
+        green, green_tBOX = linkBOX(green, green_tBOX)
+        blue, blue_tBOX = linkBOX(blue, blue_tBOX)
     
         if not(running_color_select): break
 
-        color = color_test(status)
+        color = []
+        for a in range(len(status) - 2):
+            if status[a]: color.append(((255, 255, 255), (100, 100, 100)))
+            else: color.append(((30, 30, 30), (50, 50, 50)))
+        if status[16]: color.append(((255, 255, 255), (255, 0, 0)))
+        else: color.append(((180, 180, 180), (50, 50, 50)))
 
-        if mod_hexa: red_tBOX, green_tBOX, blue_tBOX = convert_2RGB(hex_tBOX)
-        else: hex_tBOX = convert_2hex(red, green, blue)
+        if mod_hexa: red_tBOX, green_tBOX, blue_tBOX = convert2RGB(hex_tBOX)
+        else: hex_tBOX = convert2hex(red, green, blue)
 
         if mod_red_b: color_red_bar = (100, 100, 100)
         else: color_red_bar = color[3][1]

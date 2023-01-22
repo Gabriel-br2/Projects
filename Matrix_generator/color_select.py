@@ -10,71 +10,11 @@ def fontVector(vector_size):
         vector_font.append(pygame.font.Font('freesansbold.ttf', a))
     return vector_font
 
-def test_all_buttons(listB, mouse):
+def testButtons(listB, mouse):
     rects = []
     for count in range(len(listB)): 
         rects.append(testButton(listB[count], mouse))
     return rects
-
-def save(r, g, b, font, tx, ty, screen):
-    tx, ty = tx + 100, ty + 33
-    file = open("color_saved.txt", 'r+')    
-    f = str((r, g, b)) + '\n'
-    Lines = file.readlines()
-    if f in Lines: txt_saveok = 'Color Already Saved.'   
-    else: 
-        txt_saveok = 'Color Saved Successfully.'
-        file.write(f)
-
-    file.close
-
-    running_wsave = True
-    window_saveborder = pygame.Rect(tx - 1, ty - 1, 202, 127)
-    window_saveRect = pygame.Rect(tx, ty + 25, 200, 100)
-    window_savBRect = pygame.Rect(tx, ty, 200, 25)
-    window_saveExit = pygame.Rect(tx + 150, ty, 50, 25)
-
-    save_title = font[2].render('Save', True, (180, 180, 180))
-    save_texit = font[2].render('X', True, (180, 180, 180))
-    txt_save = font[2].render(txt_saveok, True, (180, 180, 180))
-    
-    exit_save = False
-    while running_wsave:
-        m = pygame.mouse.get_pos()
-        for event in pygame.event.get():
-            et_mouse = event.type == pygame.MOUSEBUTTONDOWN
-
-            if event.type == pygame.QUIT: 
-               return True
-
-            if testButton(window_saveExit, m): exit_save = True
-            else: exit_save = False
-
-            if (exit_save and et_mouse) or (not(testButton(window_saveborder, m)) and et_mouse):
-                running_wsave = False
-
-        if exit_save: colorsave_exit = (255, 0, 0)
-        else: colorsave_exit = (50, 50, 50)
-
-        pygame.draw.rect(screen, (0, 0, 0), window_saveborder)
-        pygame.draw.rect(screen, (30, 30, 30), window_saveRect)
-        pygame.draw.rect(screen, (50, 50, 50), window_savBRect)
-        pygame.draw.rect(screen, colorsave_exit, window_saveExit)
-
-        save_title_rect = save_title.get_rect()
-        save_texit_rect = save_texit.get_rect()
-        txt_save_rect = txt_save.get_rect()
-
-        save_title_rect.center = window_savBRect.center
-        save_texit_rect.center = window_saveExit.center
-        txt_save_rect.center = window_saveRect.center
-        
-        screen.blit(save_texit, save_texit_rect)
-        screen.blit(save_title, save_title_rect)
-        screen.blit(txt_save, txt_save_rect)
-
-        pygame.display.update()
-    return False
 
 def linkBOX(rgb, rgb_box):
     try: rgb = int(rgb_box)
@@ -87,8 +27,7 @@ def linkBOX(rgb, rgb_box):
 
 def convert2RGB(hexa):
     if len(hexa) < 7:
-        for a in range(7 - len(hexa)):
-            hexa += '0'
+        for a in range(7 - len(hexa)): hexa += '0'
     if hexa[0] == '#':
         try: R, G, B = int(hexa[1:3], base=16), int(hexa[3:5], base=16), int(hexa[5:7], base=16) 
         except ValueError: R, G, B = 0, 0, 0
@@ -107,6 +46,64 @@ def createRect(tx, ty, L):
     for r in L: R.append(pygame.Rect(tx + r[0], ty + r[1], r[2], r[3]))
     return R
 
+def drawText(screen,tt,font,ft,pos,ct,bo):
+    T, TP = [], []
+    for tp in range(len(tt)):
+        T = font[ft[tp]].render(tt[tp], True, ct[tp])
+        TP = T.get_rect()
+        if tp not in [2, 6, 10] or bo:TP.center = pos[tp].center
+        else:TP.center = pos[tp]
+        screen.blit(T, TP)
+
+def saveColor(r, g, b, font, tx, ty, screen):
+    tx, ty = tx + 100, ty + 33
+    file = open("color_saved.txt", 'r+')    
+    f = str((r, g, b)) + '\n'
+    Lines = file.readlines()
+    if f in Lines: txt_saveok = 'Color Already Saved.'   
+    else: 
+        txt_saveok = 'Color Saved Successfully.'
+        file.write(f)
+    file.close
+
+    running_wsave = True
+    Rect_winSAVE = [(-1, -1, 202, 127),(0, 25, 200, 100),(0, 0, 200, 25),(150, 0, 50, 25)]
+    Rect_winSAVE = createRect(tx,ty,Rect_winSAVE)
+
+    exit_save = False
+    while running_wsave:
+        m = pygame.mouse.get_pos()
+        for event in pygame.event.get():
+            et_mouse = event.type == pygame.MOUSEBUTTONDOWN
+
+            if event.type == pygame.QUIT: 
+               return True
+
+            if testButton(Rect_winSAVE[3], m): exit_save = True
+            else: exit_save = False
+
+            if (exit_save and et_mouse) or (not(testButton(Rect_winSAVE[0], m)) and et_mouse):
+                running_wsave = False
+
+        if exit_save: colorsave_exit = (255, 0, 0)
+        else: colorsave_exit = (50, 50, 50)
+
+        Color_LIST = [(0, 0, 0),(30, 30, 30),(50, 50, 50),colorsave_exit]
+        
+        drawRect(screen, Color_LIST, Rect_winSAVE,4)
+        
+        ft = [2,2,2]
+        tt = ['Save','X',txt_saveok]
+        ct = [(180,180,180),(180,180,180),(180,180,180)]
+        pos = [Rect_winSAVE[2],Rect_winSAVE[3],Rect_winSAVE[1]]
+        drawText(screen,tt,font,ft,pos,ct,True)
+        pygame.display.update()
+    return False
+
+def drawRect(screen, colorL, RectsL,n):
+    for count in range(n):
+        pygame.draw.rect(screen,colorL[count],RectsL[count])
+
 def selectColor(red,green,blue,screen, font, tx, ty):
     running_color_select = True
 
@@ -119,7 +116,7 @@ def selectColor(red,green,blue,screen, font, tx, ty):
     while running_color_select:
         m = pygame.mouse.get_pos()
         status = [rects[4], rects[3], rects[6], rects[5], rects[8], rects[7], rects[10], rects[9], rects[12], rects[11], rects[14], rects[13], rects[16], rects[17], rects[18], rects[19], rects[1], rects[2]]
-        status = test_all_buttons(status, m)
+        status = testButtons(status, m)
 
         for event in pygame.event.get():
             et_mouse = event.type == pygame.MOUSEBUTTONDOWN
@@ -133,7 +130,7 @@ def selectColor(red,green,blue,screen, font, tx, ty):
                 color_select_satus, running_color_select, close = True, False, False
 
             if status[13] and et_mouse:
-                if save(red, green, blue, font, tx, ty, screen): color_select_satus, running_color_select, close = False, False, True
+                if saveColor(red, green, blue, font, tx, ty, screen): color_select_satus, running_color_select, close = False, False, True
 
             if status[0] and et_mouse: red_tBOX = str(int(red_tBOX) + 1)
             if status[1] and et_mouse: red_tBOX = str(int(red_tBOX) - 1)
@@ -214,8 +211,7 @@ def selectColor(red,green,blue,screen, font, tx, ty):
         else: color_blue_bar = color[11][1]
 
         Rects_color = [(50, 50, 50), color[16][1], (30, 30, 30), color[1][1], color[0][1], color_red_bar, color[2][1], color[5][1], color[4][1], color_green_bar, color[6][1], color[9][1], color[8][1], color_blue_bar, color[10][1], (red, green, blue), color[12][1], color[13][1], color[14][1], color[15][1]]
-        for d in range(len(Rects_color)):
-            pygame.draw.rect(screen, Rects_color[d], rects[d])
+        drawRect(screen, Rects_color, rects,len(Rects_color))
 
         red_bar_c= pygame.Rect(tx + 195, ty + 40, (red*155)/255, 20)
         pygame.draw.rect(screen, (255, 0, 0), red_bar_c)
@@ -233,17 +229,11 @@ def selectColor(red,green,blue,screen, font, tx, ty):
         if blue_tBOX == '': tb = '0'
         else: tb = blue_tBOX
 
-        T, TP = [], []
         ft = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2]
         tt = [' - ', ' + ', "R", tr, ' - ', ' + ', "G", tg, ' - ', ' + ', "B", tb, "Ok", "Save", "Cancel", hex_tBOX, 'Select Color', 'X']      
         ct = [color[1][0], color[0][0], (255, 0, 0), (255, 0, 0), color[5][0], color[4][0], (0, 255, 0), (0, 255, 0), color[9][0], color[8][0], (0, 0, 255), (0, 0, 255), color[15][0], color[13][0], color[14][0], color[12][0], (180, 180, 180), color[16][0]]
         pos = [rects[3], rects[4], (tx + 170 + 217, ty + 40 + 11), rects[6], rects[7], rects[8], (tx + 170 + 217, ty + 75 + 11), rects[10], rects[11], rects[12], (tx + 170 + 217, ty + 110 + 11), rects[14], rects[19], rects[17], rects[18], rects[16], rects[0], rects[1]]
+        drawText(screen,tt,font,ft,pos,ct,False)
 
-        for tp in range(len(tt)):
-            T = font[ft[tp]].render(tt[tp], True, ct[tp])
-            TP = T.get_rect()
-            if tp not in [2, 6, 10]:TP.center = pos[tp].center
-            else:TP.center = pos[tp]
-            screen.blit(T, TP)
         pygame.display.update()
     return (red, green, blue, color_select_satus, close)

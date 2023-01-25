@@ -7,6 +7,6 @@ for a in range(N):
       P.append(L[e])
     elif L[e] == '>' and e != 0:
       if len(P) != 0:
-        P.pop(-1)
+        P.pop()
         D += 1
   print(D)

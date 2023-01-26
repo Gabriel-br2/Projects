@@ -1,11 +1,13 @@
 # To do: 
-# animação ->  start/ stop
+
 # Ferramentas: Linha, quadrado, quadrado preenchido, circulo, circulo preenchido
-# texts
+# texts and buttons
 # aplicar funcs
 # export animação
+# Mudar anim ja salva
 
 import pygame
+import time
 from color_select import *
 
 pygame.init()
@@ -62,25 +64,27 @@ def doubleFrame(main_mat):
         Ret.append(ret_l)
     return Ret
 
-def dataSavedProcessing(dataReaded):
-    dataReaded = dataReaded.split(',')
-    dataReaded = dataReaded[0].split('(') + dataReaded[1:]
-    dataReaded = dataReaded[1:len(dataReaded)-1] + dataReaded[len(dataReaded)-1].split(')')
-    dataReaded = list(map(int,dataReaded[0:len(dataReaded)-1]))
-    return dataReaded 
+def changedColorSave(color):
+    arqName = "color_saved.txt"
+    color2chan = str((color[0], color[1], color[2])) 
+    with open(arqName,"r") as f:
+        lines = f.readlines()
+    with open(arqName,"w") as f:
+        for line in lines:
+            if line.strip("\n") != color2chan:
+                f.write(line)
 
 def readDataSaved(tamX, tamY):
     matriz,cont,arqName = [], 0, "color_saved.txt"
-    file = open(arqName,'r')
-    lines = file.readlines()
+    with open(arqName,'r') as file: lines = file.readlines()
     for Y in range(tamY):
         colun = []
         for X in range(tamX):
             try: 
                 dataReaded = lines[0]
                 lines.pop(0)
-            except: dataReaded = '(0,0,0)\n'
-            dataReaded = dataSavedProcessing(dataReaded)
+            except: dataReaded = '(0, 0, 0)\n'
+            dataReaded = list(map(int,(dataReaded.strip('\n'))[1:-1].split(", ")))
             colun.append((dataReaded[0],dataReaded[1],dataReaded[2]))
             cont += 1
         matriz.append(colun)
@@ -90,15 +94,15 @@ def readDataSaved(tamX, tamY):
             try:
                 dataReaded = lines[0]
                 lines.pop(0)
-            except: dataReaded = '(0,0,0)\n'
-            dataReaded = dataSavedProcessing(dataReaded)
+            except: dataReaded = '(0, 0, 0)\n'
+            dataReaded = list(map(int,(dataReaded.strip('\n'))[1:-1].split(", ")))
             matriz[ncolor].append((dataReaded[0],dataReaded[1],dataReaded[2]))
     return matriz
 
 def main():
     running, main_matriz,indexC = True,[],3
     current_frame,tam = -1,-1
-    tamX, tamY, tamXC, tamYC = 30, 12, 3, 6
+    clock, frame_rate, tamX, tamY, tamXC, tamYC = time.time(), 2, 30, 12, 3, 6
 
     screen = pygame.display.set_mode((818,373))
     pygame.display.set_caption('Animation Generator')
@@ -109,12 +113,14 @@ def main():
     button_colorselect = pygame.Rect(727, 105, 60, 60)
     button_new_frame = pygame.Rect(30, 313, 100, 30)
     but_duplicateframe = pygame.Rect(135,313,100,30)
-    but_back = pygame.Rect(240,313,30,30)
-    but_front = pygame.Rect(275,313,30,30)
+    but_rmFrame = pygame.Rect(240,313,100,30)
+    but_back = pygame.Rect(345,313,30,30)
+    but_front = pygame.Rect(380,313,30,30)
+    but_SartStop = pygame.Rect(415,313,30,30)
+    but_removeC = pygame.Rect(622,313,100,30)
     but_backC = pygame.Rect(727,313,28,30) 
     but_frontC = pygame.Rect(760,313,28,30)
-    but_rmFrame = pygame.Rect(310,313,100,30)
-
+    
     rects_m = genRectMatriz(30,30,tamX,tamY,20,3,False)
     rects_sc = genRectMatriz(728,178,tamXC,tamYC,17,4.5,False) 
         
@@ -122,7 +128,7 @@ def main():
     font = fontVector(font)
 
     r,g,b = 0,0,0
-    c = False
+    removC, anim,c = False,False,False
 
     while running:
         save_mat = readDataSaved(tamXC,tamYC)
@@ -131,8 +137,12 @@ def main():
         for event in pygame.event.get():
             et_mouse = (event.type == pygame.MOUSEBUTTONDOWN)
 
-            if (event.type == pygame.QUIT) or (c): 
-                running = False
+            if (event.type == pygame.QUIT) or (c): running = False
+            if testButton(but_frontC,m) and et_mouse and indexC < len(save_mat[0]):  indexC+=1
+            if testButton(but_backC,m) and et_mouse and indexC > tamXC: indexC -= 1 
+
+            if testButton(but_removeC,m) and et_mouse:
+                if not(removC): removC = True
 
             if testButton(button_colorselect,m) and et_mouse:
                 r1,g1,b1,s,c = selectColor(r,g,b,screen,font,388,105)
@@ -156,6 +166,10 @@ def main():
                 if current_frame == tam: current_frame = 0
                 else: current_frame += 1
 
+            if testButton(but_SartStop,m) and et_mouse:
+                if anim: anim = False
+                else: anim = True
+
             if testButton(but_rmFrame,m) and et_mouse:
                 if len(main_matriz) > 1:
                     tam -=1
@@ -165,9 +179,6 @@ def main():
                     main_matriz.pop(current_frame)
                     main_matriz.append(genRectMatriz(0,0,tamX,tamY,0,0,False))
 
-            if testButton(but_frontC,m) and et_mouse and indexC < len(save_mat[0]):  indexC+=1
-            if testButton(but_backC,m) and et_mouse and indexC > tamXC: indexC -= 1 
-
             test,changed_X,changed_Y = testMatrizClick(rects_m,tamX,tamY,m,et_mouse)
             if test: 
                 if(event.button == 3): main_matriz[current_frame][changed_Y][changed_X] = (0, 0, 0)
@@ -175,11 +186,21 @@ def main():
 
             testC,changed_XC,changed_YC = testMatrizClick(rects_sc,tamXC,tamYC,m,et_mouse)
             if testC:
-                color_to_change = save_mat[changed_YC] [changed_XC+(indexC-tamXC)]             
-                r,g,b = color_to_change[0],color_to_change[1],color_to_change[2]
+                if removC:
+                    changedColorSave(save_mat[changed_YC][changed_XC+(indexC-tamXC)])
+                    removC = False
+                else:
+                    color_to_change = save_mat[changed_YC][changed_XC+(indexC-tamXC)]             
+                    r,g,b = color_to_change[0],color_to_change[1],color_to_change[2]
 
         if c: break
         screen.fill((50, 50, 50))
+
+        if anim:
+            if time.time() - clock >= (1/frame_rate):
+                if current_frame == tam: current_frame = 0
+                else: current_frame += 1
+                clock = time.time()
 
         # text
         str_to_txt = str(current_frame+1) + ' of ' + str(tam+1) 
@@ -206,6 +227,8 @@ def main():
         pygame.draw.rect(screen, (70, 70, 70), but_backC)
         pygame.draw.rect(screen, (70, 70, 70), but_frontC)
         pygame.draw.rect(screen, (70, 70, 70), but_rmFrame)
+        pygame.draw.rect(screen, (70, 70, 70), but_SartStop)
+        pygame.draw.rect(screen, (70, 70, 70), but_removeC)
         
         pygame.display.update()
 

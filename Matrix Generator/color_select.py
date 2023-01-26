@@ -4,17 +4,17 @@ def testButton(rect, mouse):
     if (rect.topleft[0] <= mouse[0] <= rect.topright[0]) and (rect.topleft[1] <= mouse[1] <= rect.bottomright[1]): return True
     else: return False
 
-def fontVector(vector_size):
-    vector_font = [] 
-    for a in vector_size:
-        vector_font.append(pygame.font.Font('freesansbold.ttf', a))
-    return vector_font
-
 def testButtons(listB, mouse):
     rects = []
     for count in range(len(listB)): 
         rects.append(testButton(listB[count], mouse))
     return rects
+
+def fontVector(vector_size):
+    vector_font = [] 
+    for a in vector_size:
+        vector_font.append(pygame.font.Font('freesansbold.ttf', a))
+    return vector_font
 
 def linkBOX(rgb, rgb_box):
     try: rgb = int(rgb_box)
@@ -106,7 +106,6 @@ def drawRect(screen, colorL, RectsL,n):
 
 def selectColor(red,green,blue,screen, font, tx, ty):
     running_color_select = True
-
     rects = [(0, 0, 400, 25), (350, 0, 50, 25), (0, 25, 400, 165), (170, 40, 20, 20), (355, 40, 20, 20), (195, 40, 155, 20), (125, 40, 40, 20), (170, 75, 20, 20), (355, 75, 20, 20), (195, 75, 155, 20), (125, 75, 40, 20), (170, 110, 20, 20), (355, 110, 20, 20), (195, 110, 155, 20), (125, 110, 40, 20), (15, 40, 94, 91), (255, 145, 120, 30), (175, 145, 75, 30), (95, 145, 75, 30), (15, 145, 75, 30)]
     rects = createRect(tx, ty, rects)
 
@@ -211,6 +210,7 @@ def selectColor(red,green,blue,screen, font, tx, ty):
         else: color_blue_bar = color[11][1]
 
         Rects_color = [(50, 50, 50), color[16][1], (30, 30, 30), color[1][1], color[0][1], color_red_bar, color[2][1], color[5][1], color[4][1], color_green_bar, color[6][1], color[9][1], color[8][1], color_blue_bar, color[10][1], (red, green, blue), color[12][1], color[13][1], color[14][1], color[15][1]]
+        pygame.draw.rect(screen,(0,0,0),(tx-1,ty-1,402,192))
         drawRect(screen, Rects_color, rects,len(Rects_color))
 
         red_bar_c= pygame.Rect(tx + 195, ty + 40, (red*155)/255, 20)

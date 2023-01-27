@@ -1,14 +1,17 @@
 # To do: 
 
 # Ferramentas: Linha, quadrado, quadrado preenchido, circulo, circulo preenchido
-# texts and buttons
-# aplicar funcs
-# export animação
-# Mudar anim ja salva
+# Texts 
+# Buttons
+# Aplicar funcs
+
+# Export/Inport animação: definir nome sem (!= \ / : " ? * <> |), barra de pesquisa para acessar animação, se overwhite n salvar   
+# na saida perguntar se quer salvar
 
 import pygame
 import time
 from color_select import *
+from InOut_anim import *
 
 pygame.init()
 
@@ -110,17 +113,18 @@ def main():
     # createRect
     main_color = pygame.Rect(728, 31, 58, 58)
     main_colorborder = pygame.Rect(727, 30, 60, 60)
-    button_colorselect = pygame.Rect(727, 105, 60, 60)
-    button_new_frame = pygame.Rect(30, 313, 100, 30)
-    but_duplicateframe = pygame.Rect(135,313,100,30)
-    but_rmFrame = pygame.Rect(240,313,100,30)
-    but_back = pygame.Rect(345,313,30,30)
-    but_front = pygame.Rect(380,313,30,30)
-    but_SartStop = pygame.Rect(415,313,30,30)
+    colorsr = pygame.Rect(728,178,60,124.5)
+    but_colorselect = pygame.Rect(727, 105, 60, 60)
+    but_saveAnim = pygame.Rect(30,313,50,30)
+    but_new_frame = pygame.Rect(85, 313, 100, 30)
+    but_duplicateframe = pygame.Rect(190,313,100,30)
+    but_rmFrame = pygame.Rect(295,313,100,30)
+    but_back = pygame.Rect(400,313,30,30)
+    but_front = pygame.Rect(435,313,30,30)
+    but_SartStop = pygame.Rect(470,313,30,30)
     but_removeC = pygame.Rect(622,313,100,30)
     but_backC = pygame.Rect(727,313,28,30) 
     but_frontC = pygame.Rect(760,313,28,30)
-    
     rects_m = genRectMatriz(30,30,tamX,tamY,20,3,False)
     rects_sc = genRectMatriz(728,178,tamXC,tamYC,17,4.5,False) 
         
@@ -140,15 +144,14 @@ def main():
             if (event.type == pygame.QUIT) or (c): running = False
             if testButton(but_frontC,m) and et_mouse and indexC < len(save_mat[0]):  indexC+=1
             if testButton(but_backC,m) and et_mouse and indexC > tamXC: indexC -= 1 
+            if testButton(but_removeC,m) and et_mouse and not(removC): removC = True
+            if not(testButton(colorsr,m)) and removC: removC = False
 
-            if testButton(but_removeC,m) and et_mouse:
-                if not(removC): removC = True
-
-            if testButton(button_colorselect,m) and et_mouse:
+            if testButton(but_colorselect,m) and et_mouse:
                 r1,g1,b1,s,c = selectColor(r,g,b,screen,font,388,105)
                 if s: r,g,b = r1,g1,b1
                 
-            if (testButton(button_new_frame,m) and et_mouse) or tam == -1:
+            if (testButton(but_new_frame,m) and et_mouse) or tam == -1:
                 main_matriz.insert(current_frame+1,genRectMatriz(0,0,tamX,tamY,0,0,True))
                 current_frame += 1
                 tam+=1
@@ -170,6 +173,9 @@ def main():
                 if anim: anim = False
                 else: anim = True
 
+            # if testButton(but_saveAnim,m) and et_mouse:
+            #     saveAnim()
+
             if testButton(but_rmFrame,m) and et_mouse:
                 if len(main_matriz) > 1:
                     tam -=1
@@ -188,7 +194,6 @@ def main():
             if testC:
                 if removC:
                     changedColorSave(save_mat[changed_YC][changed_XC+(indexC-tamXC)])
-                    removC = False
                 else:
                     color_to_change = save_mat[changed_YC][changed_XC+(indexC-tamXC)]             
                     r,g,b = color_to_change[0],color_to_change[1],color_to_change[2]
@@ -219,16 +224,17 @@ def main():
         #drawRect
         pygame.draw.rect(screen, (0 , 0, 0), main_colorborder)
         pygame.draw.rect(screen, (r, g, b), main_color)
-        pygame.draw.rect(screen, (70, 70, 70), button_colorselect)
+        pygame.draw.rect(screen, (70, 70, 70), but_colorselect)
         pygame.draw.rect(screen, (70, 70, 70), but_front)
         pygame.draw.rect(screen, (70, 70, 70), but_back)
         pygame.draw.rect(screen, (70, 70, 70), but_duplicateframe)
-        pygame.draw.rect(screen, (70, 70, 70), button_new_frame)
+        pygame.draw.rect(screen, (70, 70, 70), but_new_frame)
         pygame.draw.rect(screen, (70, 70, 70), but_backC)
         pygame.draw.rect(screen, (70, 70, 70), but_frontC)
         pygame.draw.rect(screen, (70, 70, 70), but_rmFrame)
         pygame.draw.rect(screen, (70, 70, 70), but_SartStop)
         pygame.draw.rect(screen, (70, 70, 70), but_removeC)
+        pygame.draw.rect(screen, (70, 70, 70), but_saveAnim)
         
         pygame.display.update()
 

@@ -250,7 +250,7 @@ def main():
     
     but_OnOff = {}
     for y in range(len(but)):
-        but_OnOff[y] = [(70,70,70),(100,100,100)]
+        but_OnOff[y] = [(70,70,70),(100,100,100)] #botoes
 
     but = createRect(0, 0, but)
     Rects = createRect(0, 0, Rects)
@@ -259,7 +259,7 @@ def main():
 
     ct2,ft2 = [],[]
     for x in range(len(but)):
-        ct2.append((180,180,180))
+        ct2.append((180,180,180))  #texto
         ft2.append(2)
     ft,ct,pos = [1] + ft2,[(255,255,255)] + ct2,[(56,17)] + but
     tt = ["Add","Arq","New Frame","Duplicate","Remove","<",">","Sp","Rmv. Color","<",">"]
@@ -350,7 +350,7 @@ def main():
 
 
         if c: break
-        screen.fill((50, 50, 50))
+        screen.fill((50, 50, 50))  #back
 
         if anim:
             if time.time() - clock >= (1/frame_rate):
@@ -358,7 +358,7 @@ def main():
                 else: current_frame += 1
                 clock = time.time()
 
-        colorR = [(0,0,0),(r,g,b)]
+        colorR = [(0,0,0),(r,g,b)] 
         colorB = colorButtons(status, but_OnOff)
 
         drawMatrizColor(tamX,tamY,main_matriz[current_frame],screen,rects_m,30,True) 

@@ -4,6 +4,8 @@
 # Export/Inport/New animação: definir nome sem (!= \ / : " ? * <> |), barra de pesquisa para acessar animação, se overwhite n salvar   
 # na saida perguntar se quer salvar
 # new mtriz
+# salvar como
+#salvar
 
 # BUGS
 # color select bar click apertado
@@ -128,8 +130,8 @@ def SelectSLN_Anim(screen,font):
     c, Running_SaveSW,op = False, True, 0
     ft,tt = [2,2,2], ["Export","Load","New"]
     Rects, but = [(30,232,100,111), (31,233,98,109)], [(35,273,90,30), (35,308,90,30),(35,237,90,30)]    
-    b_OnOff = {0: [(70,70,70),(100,100,100)], 1: [(70,70,70),(100,100,100)], 2: [(70,70,70),(100,100,100)]}    
-    bt_OnOff = {0: [(150,150,150),(255,255,255)], 1:[(150,150,150),(255,255,255)],2: [(150,150,150),(255,255,255)]}
+    b_OnOff = {0: [(75,75,75),(100,100,100)], 1: [(75,75,75),(100,100,100)], 2: [(75,75,75),(100,100,100)]}    
+    bt_OnOff = {0: [(160,160,160),(255,255,255)], 1:[(160,160,160),(255,255,255)],2: [(160,160,160),(255,255,255)]}
     Rects, but = createRect(0, 0, Rects),createRect(0, 0, but)
 
     while Running_SaveSW:
@@ -142,7 +144,7 @@ def SelectSLN_Anim(screen,font):
             for s in range(len(status)):
                 if status[s] and et_mouse: Running_SaveSW,op = False, s+1
 
-        colorR = [(0,0,0),(30,30,30)]
+        colorR = [(0,0,0),(55,55,55)]
         colorB = colorButtons(status, b_OnOff)
         ct = colorButtons(status, bt_OnOff)
         drawRect(screen, colorR+colorB, Rects+but)
@@ -250,7 +252,7 @@ def main():
     
     but_OnOff = {}
     for y in range(len(but)):
-        but_OnOff[y] = [(70,70,70),(100,100,100)] #botoes
+        but_OnOff[y] = [(60,60,60),(90,90,90)]
 
     but = createRect(0, 0, but)
     Rects = createRect(0, 0, Rects)
@@ -259,7 +261,7 @@ def main():
 
     ct2,ft2 = [],[]
     for x in range(len(but)):
-        ct2.append((180,180,180))  #texto
+        ct2.append((180,180,180))
         ft2.append(2)
     ft,ct,pos = [1] + ft2,[(255,255,255)] + ct2,[(56,17)] + but
     tt = ["Add","Arq","New Frame","Duplicate","Remove","<",">","Sp","Rmv. Color","<",">"]
@@ -350,7 +352,7 @@ def main():
 
 
         if c: break
-        screen.fill((50, 50, 50))  #back
+        screen.fill((40, 40, 40))
 
         if anim:
             if time.time() - clock >= (1/frame_rate):

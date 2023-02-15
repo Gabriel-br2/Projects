@@ -57,7 +57,7 @@ def drawText(screen,tt,font,ft,pos,ct,notList):
     for tp in range(len(tt)):
         T = font[ft[tp]].render(tt[tp], True, ct[tp])
         TP = T.get_rect()
-        if tp not in notList:TP.center = pos[tp].center
+        if tp not in notList: TP.center = pos[tp].center
         else:TP.center = pos[tp]
         screen.blit(T, TP)
 
@@ -99,14 +99,14 @@ def saveColor(r, g, b, font, tx, ty, screen):
         pygame.display.update()
     return False
 
-def insertText(test,tBox,event,dMaxL):
+def insertText(test,tBox,event,dMaxL,blk):
     for keyTeste in range(len(test)):
         if event.type == pygame.KEYDOWN and test[keyTeste]:
             if event.key == pygame.K_BACKSPACE: tBox[keyTeste] = tBox[keyTeste][: - 1]
-            elif len(tBox[keyTeste]) < dMaxL[keyTeste]: tBox[keyTeste] += event.unicode
+            elif len(tBox[keyTeste]) < dMaxL[keyTeste] and event.unicode not in blk: tBox[keyTeste] += event.unicode
     return tBox
 
-def TestStatus(status,et_mouse,rgb,tBox,m,tx,mod_b,mod_t):
+def TestStatus(status,et_mouse,rgb,tBox,m,tx,mod_t):
     Drgb = {'r':0, 'g':1, 'b':2}
     if status[0] and et_mouse: tBox[Drgb[rgb]] = str(int(tBox[Drgb[rgb]]) + 1)
     if status[1] and et_mouse: tBox[Drgb[rgb]] = str(int(tBox[Drgb[rgb]]) - 1)
@@ -115,9 +115,8 @@ def TestStatus(status,et_mouse,rgb,tBox,m,tx,mod_b,mod_t):
         if et_mouse: mod_t[Drgb[rgb]], tBox[Drgb[rgb]] = True, ''
     else: mod_t[Drgb[rgb]] = False
 
-    if (status[3] and et_mouse) or mod_b[Drgb[rgb]]: tBox[Drgb[rgb]],mod_b[Drgb[rgb]] = str(((m[0] - (tx + 170) - 25)*255)//155) ,True
-    if not(status[3]) and et_mouse: mod_b[Drgb[rgb]] = False
-
+    if (status[3] and et_mouse): tBox[Drgb[rgb]] = str(((m[0] - (tx + 170) - 25)*255)//155)
+    
     return tBox,mod_t
 
 def selectColor(red,green,blue,screen, font, tx, ty):
@@ -130,12 +129,12 @@ def selectColor(red,green,blue,screen, font, tx, ty):
     ft, dt,d = [],{},{}
     for c in range(len(but)-1):
         ft.append(2)
-        dt[c] = [(30,30,30),(255,255,255)] #text
+        dt[c] = [(140,140,140),(255,255,255)]        
         if c == 2: dt[c] = [(150,0,0),(255,0,0)]
         if c == 6: dt[c] = [(0,150,0),(0,255,0)]
         if c == 10: dt[c] = [(0,0,150),(0,0,255)]
-        if c == 16: d[c] = [(50,50,50),(255,0,0)] # button x
-        else: d[c] = [(50,50,50),(100,100,100)]   # button
+        if c == 16: d[c] = [(30,30,30),(255,0,0)] 
+        else: d[c] = [(60,60,60),(90,90,90)]   
     ft = ft + [2,2,2,2]
  
     tBox = [str(red), str(green), str(blue), ''] 
@@ -149,12 +148,11 @@ def selectColor(red,green,blue,screen, font, tx, ty):
         status = testButtons(but, m)
 
         for event in pygame.event.get():
-            et_mouse = event.type == pygame.MOUSEBUTTONDOWN
+            et_mouse = pygame.mouse.get_pressed()[0]    
             if event.type == pygame.QUIT: color_select_satus, running_color_select, close = False, False, True
-
-            tBox,mod_t = TestStatus(status[0:4],et_mouse,"r",tBox,m,tx,mod_b,mod_t)
-            tBox,mod_t = TestStatus(status[4:8],et_mouse,"g",tBox,m,tx,mod_b,mod_t)
-            tBox,mod_t = TestStatus(status[8:12],et_mouse,"b",tBox,m,tx,mod_b,mod_t)
+            tBox,mod_t = TestStatus(status[0:4],et_mouse,"r",tBox,m,tx,mod_t)
+            tBox,mod_t = TestStatus(status[4:8],et_mouse,"g",tBox,m,tx,mod_t)
+            tBox,mod_t = TestStatus(status[8:12],et_mouse,"b",tBox,m,tx,mod_t)
             
             if status[12] and et_mouse: mod_hexa = True
             elif not(status[12]) and et_mouse: mod_hexa = False
@@ -168,15 +166,15 @@ def selectColor(red,green,blue,screen, font, tx, ty):
 
             dMaxL = {0: 3, 1:3, 2:3, 3:7}
             test = mod_t + [mod_hexa]           
-            tBox = insertText(test,tBox,event,dMaxL)
+            tBox = insertText(test,tBox,event,dMaxL,[])
         red,green,blue,tBox = linkBox(red,green,blue,tBox)
         if not(running_color_select): break
         if mod_hexa: tBox = convert2RGB(tBox[3])
         else: tBox[3] = convert2hex(red, green, blue)
 
         Butcolor = colorButtons(status[:-1], d)
-        drawRect(screen, [(0,0,0),(50,50,50)],rects[:-1])   #borda, topbar 
-        pygame.draw.rect(screen,(70,70,70),but[len(but)-1])    #back
+        drawRect(screen, [(0,0,0),(30,30,30)],rects[:-1])  
+        pygame.draw.rect(screen,(40,40,40),but[len(but)-1])    
         drawRect(screen, Butcolor, but[:-1])
         pygame.draw.rect(screen,(red,green,blue),rects[len(rects)-1])
 
@@ -184,7 +182,7 @@ def selectColor(red,green,blue,screen, font, tx, ty):
         color = [(red,0,0),(0,green,0),(0,0,blue)]
         for bar in range(3): pygame.draw.rect(screen, color[bar], (tx + 195, ty + y[bar], (c[bar]*155)/255, 20))
 
-        ct = colorButtons(status[:-1],dt) + [(255,0,0),(0,255,0),(0,0,255),(70,70,70)]
+        ct = colorButtons(status[:-1],dt) + [(255,0,0),(0,255,0),(0,0,255),(140,140,140)]
         tt = ['+','-',('0' if tBox[0] == '' else tBox[0]),'', '+','-',('0' if tBox[1] == '' else tBox[1]),'','+','-',('0' if tBox[2] == '' else tBox[2]),'',tBox[3],"Save","Cancel","Ok","X","R","G","B",'Select Color']    
         drawText(screen,tt,font,ft,but[:-1]+[(tx+385,ty+50),(tx+385,ty+85),(tx+385,ty+120)]+[rects[1]],ct,[17,18,19])
         pygame.display.update()

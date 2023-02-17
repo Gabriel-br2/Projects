@@ -10,6 +10,10 @@ import os
 
 pygame.init()
 
+bar = ''
+if os.name == 'nt': bar = "\\"
+else: bar = '/'
+
 def testButton(rect, mouse):
     if (rect.topleft[0] <= mouse[0] <= rect.topright[0]) and (rect.topleft[1] <= mouse[1] <= rect.bottomright[1]): return True
     else: return False
@@ -386,14 +390,14 @@ def saveAsAnim(dx,dy,font,screen):
                 else:
                     caminhos = [os.path.join("saved_anim", nome) for nome in os.listdir("saved_anim")]
                     arquivos = [arq for arq in caminhos if os.path.isfile(arq)]
-                    txts = [arq.split("/")[1] for arq in arquivos if arq.lower().endswith(".txt")] #win vs ubu
+                    txts = [arq.split(bar)[1] for arq in arquivos if arq.lower().endswith(".txt")] #win vs ubu
                     if (name + ".txt") not in txts:
                         return c,True,name
                     else:
                         c,op = alert((818/2)-170,(373/2)-80,font,screen,["Export as", "There is already animation" ,"saved with this name"],["Replace","Keep"])
                         if op == 0: return c,False,"" 
                         elif op == 1:
-                            os.remove("saved_anim/{}.txt".format(name)) #win vs ubu
+                            os.remove("saved_anim{}.txt".format(bar,name)) #win vs ubu
                             return c, True, name
                         elif op == 2:
                             t = 1
@@ -428,7 +432,7 @@ def loadIn(dx,dy,screen,font):
     c,RunningLoadIN,sel = False,True,0
     caminhos = [os.path.join("saved_anim", nome) for nome in os.listdir("saved_anim")]
     arquivos = [arq for arq in caminhos if os.path.isfile(arq)]
-    txts = [arq.split("/")[1] for arq in arquivos if arq.lower().endswith(".txt")] # windous vs ubuntu
+    txts = [arq.split(bar)[1] for arq in arquivos if arq.lower().endswith(".txt")] # win vs ubu
     txts = [arq.split(".")[0] for arq in txts]
     if len(txts) < 8: txts += ["" for t in range(5-len(txts))]
 

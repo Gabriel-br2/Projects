@@ -468,7 +468,13 @@ def changeColorCircle(mainMat,x,y,color):
 
 def readDataSaved(tamX, tamY):
     matrix,cont,arqName = [], 0, "color_saved.txt"
-    with open(arqName,'r') as file: lines = file.readlines()
+    try:
+        with open(arqName,'r') as file: lines = file.readlines()
+    
+    except FileNotFoundError:
+        with open(arqName,'w') as file: file.close()
+        with open(arqName,'r') as file: lines = file.readlines()
+
     for Y in range(tamY):
         colun = []
         for X in range(tamX):
@@ -606,6 +612,9 @@ def drawSquare(main_matrix,Pg1,Pg2,color,full):
     return main_matrix
         
 def main(tamX, tamY):
+    cwd = os.getcwd()
+    path_dir = cwd + "\saved_anim"
+
     if tamX < 30: tamX = 30
     if tamY < 12: tamY = 12
 
@@ -614,7 +623,11 @@ def main(tamX, tamY):
     d = tamX-30
     r,g,b = 0,0,0
 
-    path_dir = "/home/gabriel/Documentos/Portifolio_Gabriel-br2/Matrix Generator/saved_anim"
+    if not os.path.isfile(path_dir):       
+        os.mkdir(path_dir)
+        
+
+    
     running,change, removC, anim,c,in_load,full = True, False, False, False, False,False,False
     current_frame,tam,opp,Tool = -1,-1,0,0
     Point, main_matrix,indexC,option = [],[],3,0
@@ -730,7 +743,6 @@ def main(tamX, tamY):
                 change = True
                 if(event.button == 3): main_matrix[current_frame][changed_Y][changed_X] = (0, 0, 0)
                 else:
-                    print(changed_X,changed_Y)
                     main_matrix[current_frame][changed_Y][changed_X-d] = (r, g, b)
 
             if test and (not anim) and (2 <= Tool <= 4):

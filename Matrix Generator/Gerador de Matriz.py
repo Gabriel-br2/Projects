@@ -613,7 +613,7 @@ def drawSquare(main_matrix,Pg1,Pg2,color,full):
         
 def main(tamX, tamY):
     cwd = os.getcwd()
-    path_dir = cwd + "\saved_anim"
+    path_dir = cwd + bar + "saved_anim"
 
     if tamX < 30: tamX = 30
     if tamY < 12: tamY = 12
@@ -624,6 +624,7 @@ def main(tamX, tamY):
     r,g,b = 0,0,0
 
     if not os.path.isfile(path_dir):       
+        print("aaaaaaaaa")
         os.mkdir(path_dir)
         
 

@@ -1,6 +1,3 @@
-# To do: 
-# Otimização
-
 import subprocess
 import pygame
 import time
@@ -623,11 +620,10 @@ def main(tamX, tamY):
     d = tamX-30
     r,g,b = 0,0,0
 
-    if not os.path.isfile(path_dir):       
-        print("aaaaaaaaa")
+    try:    
         os.mkdir(path_dir)
-        
-
+    except FileExistsError:
+        print('Fail')
     
     running,change, removC, anim,c,in_load,full = True, False, False, False, False,False,False
     current_frame,tam,opp,Tool = -1,-1,0,0
@@ -869,3 +865,4 @@ def main(tamX, tamY):
         pygame.display.update()
 
 main(30,12)
+pygame.quit

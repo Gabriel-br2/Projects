@@ -7,7 +7,7 @@ pygame.init()
 def main():
     running,c = True,False
     screen = pygame.display.set_mode((1300,690))
-    pygame.display.set_caption('The witcher_bitGame')
+    pygame.display.set_caption('OrdemParanormal_bitGame')
         
     while running:
         m = pygame.mouse.get_pos()

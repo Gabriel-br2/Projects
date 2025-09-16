@@ -1,4 +1,0 @@
-#!/bin/bash
-cd
-cd Documents/Portifolio_Gabriel-br2/Star\ Wars\ Game\(Project\ I\)/
-python3 'main.py'
